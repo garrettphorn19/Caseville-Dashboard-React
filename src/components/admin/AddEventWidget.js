@@ -4,7 +4,10 @@ import styled from "styled-components"
 export default function AddEventWidget() {
   return (
     <Wrapper>
-      <input type="file" />
+      <form>
+        <input type="image" />
+        <button type="submit">Upload</button>
+      </form>
     </Wrapper>
   )
 }
