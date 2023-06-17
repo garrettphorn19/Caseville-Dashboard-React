@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "caseville-dashboard",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "Timeline and other data for caseville",
+  "version": "2.0.0",
+  "author": "Garrett Horn",
   "dependencies": {
     "gatsby": "^5.3.3",
     "gatsby-cli": "^5.11.0",
@@ -14,7 +14,6 @@
     "gatsby-transformer-sharp": "^5.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-component": "^2.8.0",
     "styled-components": "^6.0.0-rc.3"
   },
   "devDependencies": {
