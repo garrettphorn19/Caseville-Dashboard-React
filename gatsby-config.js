@@ -28,6 +28,7 @@ module.exports = {
         display: `minimal-ui`,
         icon: `static/images/icons/calendar.svg`, // This path is relative to the root of the site.
       },
+      'styled-components',
     },
   ],
 }
