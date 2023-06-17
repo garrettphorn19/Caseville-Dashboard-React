@@ -29,5 +29,7 @@ module.exports = {
         icon: `static/images/icons/calendar.svg`, // This path is relative to the root of the site.
       },
     },
+    "gatsby-plugin-styled-components",
+    "babel-plugin-styled-components",
   ],
 }
