@@ -1,51 +1,57 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Event from "./Event"
+// import "dotenv/config"
 
 export default function TimelineWidget() {
-  const events = [
-    {
-      title: "Golf",
-      time: "6:33",
-      subtitle: "Bird Creek",
-      description: "Three Team Scramble",
-      active: false,
-    },
-    {
-      title: "Breakfast",
-      time: "8:30",
-      subtitle: "Matt & Regina",
-      description: "Waffle bar & Bacon",
-      active: false,
-    },
-    {
-      title: "Lunch",
-      time: "1:00",
-      subtitle: "Jamie & Nicole",
-      description: "Italian Subs & Side Salad",
-      active: true,
-    },
-    {
-      title: "Snack",
-      time: "4:00",
-      subtitle: "Austin & Max",
-      description: "Buffalo Chicken Dip",
-      active: false,
-    },
-    {
-      title: "Dinner",
-      time: "8:30",
-      subtitle: "Garrett & Andie",
-      description: "Chicken Parmesean",
-      active: false,
-    },
-  ]
+  const siteId = process.env.GATSBY_CONTENTFUL_SPACE_ID
+  const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
+
+  // Queries GraphQL data from Contentful
+  const query = `
+  {
+    eventCollection(order: eventTime_ASC) {
+      items {
+        eventTitle
+         eventTime
+        eventSubtitle
+        eventDescription
+      }
+    }
+  }
+  `
+
+  const [events, setEvents] = useState(null)
+
+  // Pulls data from query and sets events state with array
+  useEffect(() => {
+    window
+      .fetch(`https://graphql.contentful.com/content/v1/spaces/${siteId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authenticate the request
+          Authorization: `Bearer ${accessToken}`,
+        },
+        // send the GraphQL query
+        body: JSON.stringify({ query }),
+      })
+      .then(response => response.json())
+      .then(({ data, errors }) => {
+        if (errors) {
+          console.error(errors)
+        }
+
+        // rerender the entire component with new data
+        setEvents(data.eventCollection.items)
+      })
+  }, [siteId, accessToken, query])
 
   return (
     <Widget>
       <Wrapper>
         {events.map((event, index) => (
-          <Event event={event} />
+          <Event event={event} key={index} />
         ))}
       </Wrapper>
     </Widget>

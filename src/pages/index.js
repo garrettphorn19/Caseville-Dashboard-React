@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout/layout"
-import SEO from "../components/layout/seo"
+import Seo from "../components/layout/seo"
 
 import DateWidget from "../components/widgets/DateWidget"
 import SunsetWidget from "../components/widgets/SunsetWidget"
@@ -13,7 +13,7 @@ import PhotoWidget from "../components/widgets/PhotoWidget"
 function IndexPage() {
   return (
     <Layout>
-      <SEO title="Home" />
+      <Seo title="Home" />
       <Wrapper>
         <DateWidget />
         <SunsetWidget />

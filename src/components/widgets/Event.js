@@ -4,18 +4,28 @@ import styled from "styled-components"
 export default function Event(props) {
   const { event } = props
 
+  // Converts time data to readable time
+  const timestamp = new Date(Date.parse(event.eventTime))
+  const hours =
+    timestamp.getHours() > 12 ? timestamp.getHours() - 12 : timestamp.getHours()
+  const minutes =
+    timestamp.getMinutes() < 10
+      ? "0" + timestamp.getMinutes()
+      : timestamp.getMinutes()
+  const time = `${hours}:${minutes}`
+
   return (
     <EventWrapper active={event.active}>
       <TextWrapper>
         <TopRow>
           <TimeWrapper>
-            <Time>{event.time}</Time>
+            <Time>{time}</Time>
           </TimeWrapper>
-          <Title>{event.title}</Title>
+          <Title>{event.eventTitle}</Title>
         </TopRow>
         <Divider />
-        <Subtitle>{event.subtitle}</Subtitle>
-        <Description>{event.description}</Description>
+        <Subtitle>{event.eventSubtitle}</Subtitle>
+        <Description>{event.eventDescription}</Description>
       </TextWrapper>
     </EventWrapper>
   )

@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Caseville Dashboard`,
@@ -22,11 +26,8 @@ module.exports = {
         short_name: `starter`,
         start_url: `/`,
         background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `static/images/icons/calendar.svg`, // This path is relative to the root of the site.
+        icon: `static/images/icons/calendar.svg`,
       },
     },
     "gatsby-plugin-styled-components",
