@@ -18,6 +18,7 @@ export default function Photo(props) {
 const Wrapper = styled.div`
   position: relative;
   height: 770px;
+  overflow: hidden;
 `
 
 const Image = styled.img`
