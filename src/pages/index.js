@@ -32,5 +32,5 @@ const Wrapper = styled.div`
   width: 1920px;
   height: 1080px;
 
-  background: #d1d1d6;
+  margin: 0 auto;
 `

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Event from "./Event"
-// import "dotenv/config"
 
 export default function TimelineWidget() {
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID

@@ -1,10 +1,73 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
+import { Carousel } from "react-responsive-carousel"
 
 export default function PhotoWidget() {
+  const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
+  const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
+
+  // Queries GraphQL data from Contentful
+  const query = `
+  {
+    imageCollection(order:timeUploaded_ASC) {
+      items {
+        image {
+          title
+          description
+          contentType
+          fileName
+          size
+          url
+          width
+          height
+        }
+        author
+        description
+        timeUploaded
+      }
+    }
+  }
+  `
+
+  const [photos, setPhotos] = useState(null)
+
+  // Pulls data from query and sets events state with array
+  useEffect(() => {
+    window
+      .fetch(`https://graphql.contentful.com/content/v1/spaces/${spaceId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authenticate the request
+          Authorization: `Bearer ${accessToken}`,
+        },
+        // send the GraphQL query
+        body: JSON.stringify({ query }),
+      })
+      .then(response => response.json())
+      .then(({ data, errors }) => {
+        if (errors) {
+          console.error(errors)
+        }
+
+        // rerender the entire component with new data
+        setPhotos(data.imageCollection.items)
+      })
+  }, [spaceId, accessToken, query])
+
+  if (!photos) {
+    return "Loading..."
+  }
+
+  console.log(photos)
+
   return (
     <Widget>
-      <Image src="/images/carousel/Image01.jpg" />
+      <Carousel>
+        {photos.map((photo, index) => (
+          <img src={photo.image.url} key={index} />
+        ))}
+      </Carousel>
     </Widget>
   )
 }
@@ -23,9 +86,4 @@ const Widget = styled.div`
   border-radius: 25px;
 
   overflow: hidden;
-`
-const Image = styled.img`
-  position: relative;
-  width: 100%;
-  top: -50px;
 `

@@ -32,5 +32,6 @@ module.exports = {
     },
     "gatsby-plugin-styled-components",
     "babel-plugin-styled-components",
+    "react-refresh",
   ],
 }
