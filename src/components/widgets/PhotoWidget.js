@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from "react-responsive-carousel"
 
 export default function PhotoWidget() {
@@ -63,7 +64,15 @@ export default function PhotoWidget() {
 
   return (
     <Widget>
-      <Carousel>
+      <Carousel
+        autoPlay={true}
+        interval={5000}
+        infiniteLoop={true}
+        showArrows={false}
+        showIndicators={false}
+        showStatus={false}
+        showThumbs={false}
+      >
         {photos.map((photo, index) => (
           <img src={photo.image.url} key={index} />
         ))}
