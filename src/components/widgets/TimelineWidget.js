@@ -4,7 +4,7 @@ import Event from "./Event"
 // import "dotenv/config"
 
 export default function TimelineWidget() {
-  const siteId = process.env.GATSBY_CONTENTFUL_SPACE_ID
+  const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
   const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
 
   // Queries GraphQL data from Contentful
@@ -13,7 +13,7 @@ export default function TimelineWidget() {
     eventCollection(order: eventTime_ASC) {
       items {
         eventTitle
-         eventTime
+        eventTime
         eventSubtitle
         eventDescription
       }
@@ -26,7 +26,7 @@ export default function TimelineWidget() {
   // Pulls data from query and sets events state with array
   useEffect(() => {
     window
-      .fetch(`https://graphql.contentful.com/content/v1/spaces/${siteId}`, {
+      .fetch(`https://graphql.contentful.com/content/v1/spaces/${spaceId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,13 @@ export default function TimelineWidget() {
         // rerender the entire component with new data
         setEvents(data.eventCollection.items)
       })
-  }, [siteId, accessToken, query])
+  }, [spaceId, accessToken, query])
+
+  if (!events) {
+    return "Loading..."
+  }
+
+  console.log(events)
 
   return (
     <Widget>
