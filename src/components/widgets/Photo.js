@@ -7,14 +7,40 @@ export default function Photo(props) {
   return (
     <Wrapper>
       <Image src={photo.image.url} />
+      <TextWrapper>
+        <Author>{photo.author}</Author>
+        <Description>{photo.description}</Description>
+      </TextWrapper>
     </Wrapper>
   )
 }
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  position: relative;
+  height: 770px;
+`
 
 const Image = styled.img`
-  position: relative;
   width: 100%;
   top: -50px;
+  z-index: -1;
+`
+const TextWrapper = styled.div`
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px 0px 0px 0.5px rgba(68, 66, 178, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: end;
+`
+const Author = styled.p`
+  font-size: 24px;
+  color: white;
+`
+const Description = styled.p`
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.75);
 `

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from "react-responsive-carousel"
+import Photo from "./Photo"
 
 export default function PhotoWidget() {
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
@@ -74,7 +75,7 @@ export default function PhotoWidget() {
         showThumbs={false}
       >
         {photos.map((photo, index) => (
-          <img src={photo.image.url} key={index} />
+          <Photo photo={photo} key={index} />
         ))}
       </Carousel>
     </Widget>
