@@ -1,21 +1,58 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 export default function SunsetWidget() {
-  const sunriseTime = "6:43"
-  const sunsetTime = "9:07"
+  const latitude = process.env.GATSBY_LATITUDE
+  const longitude = process.env.GATSBY_LONGITUDE
+  const appId = process.env.GATSBY_WEATHER_APP_ID
+
+  const [weather, setWeather] = useState(null)
+  const [sunriseTime, setSunrise] = useState(null)
+  const [sunsetTime, setSunset] = useState(null)
+
+  // Pulls data from query and sets events state with array
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&appid=${appId}`
+      )
+        .then(res => res.json())
+        .then(result => {
+          // console.log(result)
+          setWeather(result)
+          setSunrise(result.current.sunrise)
+          setSunset(result.current.sunset)
+        })
+    }
+    fetchData()
+  }, [latitude, longitude, appId])
+
+  if (!weather) {
+    return "Loading..."
+  }
+
+  function convertToReadableTime(time) {
+    const date = new Date(time * 1000)
+    const hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
+    const minutes = date.getMinutes()
+
+    return `${hours}:${minutes}`
+  }
+
+  const sunrise = convertToReadableTime(sunriseTime)
+  const sunset = convertToReadableTime(sunsetTime)
 
   return (
     <Widget>
       <TopTimeWrapper className="top">
         <Icon src="/images/icons/icon-sunrise.svg" />
-        <Time>{sunriseTime}</Time>
+        <Time>{sunrise}</Time>
       </TopTimeWrapper>
       <Sun />
       <Water />
       <BottomTimeWrapper className="bottom">
         <Icon src="/images/icons/icon-sunset.svg" />
-        <Time>{sunsetTime}</Time>
+        <Time>{sunset}</Time>
       </BottomTimeWrapper>
     </Widget>
   )

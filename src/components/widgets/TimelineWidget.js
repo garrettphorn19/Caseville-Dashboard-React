@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Event from "./Event"
 
-export default function TimelineWidget() {
+export default function TimelineWidget(props) {
+  const { month, date, year } = props
+
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
   const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
+
+  const monthStr = month.toString().length == 1 ? "0" + month : month
+  const dateStr = date.toString().length == 1 ? "0" + date : date
 
   // Queries GraphQL data from Contentful
   const query = `
   {
-    eventCollection(order: eventTime_ASC) {
+    eventCollection(order: eventTime_ASC, where:{eventTime_gte:"${year}-${monthStr}-${dateStr}T00:00:00.000-00:00", eventTime_lte:"${year}-${monthStr}-${dateStr}T23:59:00.000-04:00"}) {
       items {
         eventTitle
         eventTime
@@ -50,15 +55,19 @@ export default function TimelineWidget() {
     return "Loading..."
   }
 
-  console.log(events)
-
   return (
     <Widget>
-      <Wrapper>
-        {events.map((event, index) => (
-          <Event event={event} key={index} />
-        ))}
-      </Wrapper>
+      {events.length === 0 ? (
+        <EmptyWrapper>
+          <EmptyMessage>No Events Scheduled</EmptyMessage>
+        </EmptyWrapper>
+      ) : (
+        <Wrapper>
+          {events.map((event, index) => (
+            <Event event={event} key={index} />
+          ))}
+        </Wrapper>
+      )}
     </Widget>
   )
 }
@@ -101,4 +110,19 @@ const Wrapper = styled.div`
   order: 0;
   align-self: stretch;
   flex-grow: 1;
+`
+
+const EmptyWrapper = styled.div`
+  width: 450px;
+  height: 720px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+`
+
+const EmptyMessage = styled.p`
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.25);
 `

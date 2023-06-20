@@ -61,8 +61,6 @@ export default function PhotoWidget() {
     return "Loading..."
   }
 
-  console.log(photos)
-
   return (
     <Widget>
       <Carousel

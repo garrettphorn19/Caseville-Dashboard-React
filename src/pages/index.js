@@ -11,14 +11,44 @@ import TimelineWidget from "../components/widgets/TimelineWidget"
 import PhotoWidget from "../components/widgets/PhotoWidget"
 
 function IndexPage() {
+  const today = new Date()
+  const monthStr = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ]
+  const day = weekday[today.getDay()]
+  const monthNum = today.getMonth()
+  const month = monthStr[monthNum]
+  const date = today.getDate()
+  const year = today.getFullYear()
+
   return (
     <Layout>
       <Seo title="Home" />
       <Wrapper>
-        <DateWidget />
+        <DateWidget day={day} month={month} date={date} />
         <SunsetWidget />
         <WeatherWidget />
-        <TimelineWidget />
+        <TimelineWidget month={monthNum + 1} date={date} year={year} />
         <PhotoWidget />
       </Wrapper>
     </Layout>

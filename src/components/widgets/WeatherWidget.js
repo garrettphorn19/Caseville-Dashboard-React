@@ -1,14 +1,48 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 export default function WeatherWidget() {
-  const icon = "/images/icons/icon-sun.svg"
-  const temp = "72"
-  const description = "Sun for the hour."
+  const latitude = process.env.GATSBY_LATITUDE
+  const longitude = process.env.GATSBY_LONGITUDE
+  const appId = process.env.GATSBY_WEATHER_APP_ID
+
+  const [weather, setWeather] = useState(null)
+  const [temp, setTemp] = useState(null)
+  const [icon, setIcon] = useState(null)
+  const [description, setDescription] = useState(null)
+
+  // Pulls data from query and sets events state with array
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&appid=${appId}`
+      )
+        .then(res => res.json())
+        .then(result => {
+          // console.log(result)
+          console.log(result)
+          setWeather(result)
+          setTemp(result.current.temp)
+          setIcon(result.current.weather[0].icon)
+          setDescription(toTitleCase(result.current.weather[0].description))
+        })
+    }
+    fetchData()
+  }, [latitude, longitude, appId])
+
+  if (!weather) {
+    return "Loading..."
+  }
+
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    })
+  }
 
   return (
     <Widget>
-      <Icon src={icon} />
+      <Icon src={`https://openweathermap.org/img/wn/${icon}@2x.png`} />
       <Temp>{temp}º</Temp>
       <Description>{description}</Description>
     </Widget>
