@@ -110,7 +110,7 @@ const Time = styled.p`
   width: 54px;
   height: 30px;
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 25px;

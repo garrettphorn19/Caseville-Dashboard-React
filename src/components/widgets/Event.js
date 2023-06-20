@@ -113,7 +113,7 @@ const Time = styled.p`
 
   /* Event Time Text */
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -139,7 +139,7 @@ const Title = styled.p`
 
   /* Event Title Text */
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 30px;
@@ -182,7 +182,7 @@ const Subtitle = styled.p`
 
   /* Event Subtitle Text */
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -204,7 +204,7 @@ const Description = styled.p`
 
   /* Event Description Text */
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;

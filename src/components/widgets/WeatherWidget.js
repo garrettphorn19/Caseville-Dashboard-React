@@ -76,7 +76,7 @@ const Temp = styled.p`
   left: 25px;
   top: 85px;
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 48px;
@@ -92,7 +92,7 @@ const Description = styled.p`
   left: 25px;
   top: 183px;
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

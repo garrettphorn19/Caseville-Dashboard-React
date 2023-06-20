@@ -39,7 +39,7 @@ Shadows for widgets
 const Title = styled.h1`
   height: 203px;
 
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 96px;
