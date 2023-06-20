@@ -2,9 +2,35 @@ import React from "react"
 import styled from "styled-components"
 
 export default function DateWidget() {
-  const day = "Friday"
-  const month = "June"
-  const date = "16"
+  const today = new Date()
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ]
+  const day = weekday[today.getDay()]
+
+  const monthStr = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+  const month = monthStr[today.getMonth()]
+
+  const date = today.getDate()
 
   return (
     <Widget>
