@@ -58,7 +58,7 @@ export default function PhotoWidget() {
   }, [spaceId, accessToken, query])
 
   if (!photos) {
-    return "Loading..."
+    return "Loading Photos..."
   }
 
   return (

@@ -28,7 +28,7 @@ export default function SunsetWidget() {
   }, [latitude, longitude, appId])
 
   if (!weather) {
-    return "Loading..."
+    return "Loading Sunset Times..."
   }
 
   function convertToReadableTime(time) {

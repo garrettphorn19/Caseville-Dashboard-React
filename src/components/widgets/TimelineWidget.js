@@ -52,7 +52,7 @@ export default function TimelineWidget(props) {
   }, [spaceId, accessToken, query])
 
   if (!events) {
-    return "Loading..."
+    return "Loading Events..."
   }
 
   return (
