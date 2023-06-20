@@ -41,6 +41,13 @@ function IndexPage() {
   const date = today.getDate()
   const year = today.getFullYear()
 
+  setTimeout(() => {
+    window.location.reload()
+    console.log(
+      `Window Reloaded on ${day}, ${month} ${date} at ${today.getHours}:${today.getMinutes}:${today.getSeconds}:${today.getMilliseconds}`
+    )
+  }, 1800000)
+
   return (
     <Layout>
       <Seo title="Home" />

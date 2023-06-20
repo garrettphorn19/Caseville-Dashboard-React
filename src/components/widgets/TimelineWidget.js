@@ -8,8 +8,8 @@ export default function TimelineWidget(props) {
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
   const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
 
-  const monthStr = month.toString().length == 1 ? "0" + month : month
-  const dateStr = date.toString().length == 1 ? "0" + date : date
+  const monthStr = month.toString().length === 1 ? "0" + month : month
+  const dateStr = date.toString().length === 1 ? "0" + date : date
 
   // Queries GraphQL data from Contentful
   const query = `
