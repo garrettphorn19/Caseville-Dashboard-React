@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 export default function Event(props) {
   const { event } = props
 
+  const [isActive, setActive] = useState(false)
+
   // Converts time data to readable time
-  const timestamp = new Date(Date.parse(event.eventTime))
+  const timestamp = new Date(event.eventTime)
   const hours =
     timestamp.getHours() > 12 ? timestamp.getHours() - 12 : timestamp.getHours()
   const minutes =
@@ -14,8 +16,23 @@ export default function Event(props) {
       : timestamp.getMinutes()
   const time = `${hours}:${minutes}`
 
+  const currentTime = new Date()
+
+  const nowUnix = convertToUnix(currentTime)
+  const eventUnix = convertToUnix(timestamp)
+
+  function convertToUnix(time) {
+    return Math.floor(new Date(time).getTime() / 1000)
+  }
+
+  useEffect(() => {
+    if (nowUnix >= eventUnix - 600 && nowUnix <= eventUnix + 3000) {
+      setActive(true)
+    }
+  }, [eventUnix, nowUnix])
+
   return (
-    <EventWrapper active={event.active}>
+    <EventWrapper active={isActive}>
       <TextWrapper>
         <TopRow>
           <TimeWrapper>
@@ -73,7 +90,7 @@ const TopRow = styled.div`
   padding: 0px;
   gap: 10px;
 
-  width: 243px;
+  /* width: 243px; */
   height: 36px;
 
   /* Inside auto layout */
@@ -87,10 +104,11 @@ const TimeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 2px 6px;
   gap: 10px;
 
-  width: 54px;
+  width: 65px;
   height: 36px;
 
   background: rgba(68, 66, 179, 0.1);
@@ -106,55 +124,30 @@ const TimeWrapper = styled.div`
 `
 
 const Time = styled.p`
-  /* Time */
-
   width: 42px;
   height: 24px;
-
-  /* Event Time Text */
-
   font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
-  /* identical to box height */
-
-  text-align: center;
-
   color: #000000;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 0;
   flex-grow: 0;
 `
 
 const Title = styled.p`
-  /* Event Title */
-
   width: 179px;
   height: 36px;
-
-  /* Event Title Text */
-
   font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 30px;
   line-height: 36px;
-  /* identical to box height */
-
   display: flex;
   align-items: center;
-
-  /* Event Text Color */
-
   color: #3913b8;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -204,7 +197,7 @@ const Description = styled.p`
 
   /* Event Description Text */
 
-  font-family: "SF Pro Rounded", "Open Sans";
+  font-family: "SF Pro Rounded";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;

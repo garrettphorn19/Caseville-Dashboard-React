@@ -20,7 +20,6 @@ export default function WeatherWidget() {
         .then(res => res.json())
         .then(result => {
           // console.log(result)
-          console.log(result)
           setWeather(result)
           setTemp(Math.ceil(result.current.temp))
           setIcon(result.current.weather[0].icon)

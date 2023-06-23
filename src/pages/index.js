@@ -46,7 +46,7 @@ function IndexPage() {
     console.log(
       `Window Reloaded on ${day}, ${month} ${date} at ${today.getHours}:${today.getMinutes}:${today.getSeconds}:${today.getMilliseconds}`
     )
-  }, 1800000)
+  }, 900000)
 
   return (
     <Layout>

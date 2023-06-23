@@ -96,7 +96,7 @@ const Widget = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
   padding: 0px;
   gap: 5px;
