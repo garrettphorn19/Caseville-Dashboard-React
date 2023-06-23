@@ -41,8 +41,6 @@ export default function AddEventWidget() {
             },
           })
         )
-        // .then(entry => setEntryId(entry.sys.id))
-        .then(entry => console.log(entry.sys.id))
         .then(entry => publishEvent(entry.sys.id))
         .catch(console.error)
 
@@ -59,6 +57,8 @@ export default function AddEventWidget() {
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
+
+    console.log(id)
 
     client
       .getSpace(spaceId)
