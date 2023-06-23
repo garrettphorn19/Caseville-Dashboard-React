@@ -56,7 +56,7 @@ export default function AddEventWidget() {
       setEventTime(null)
       setEventSubtitle(null)
       setEventDescription(null)
-      window.location.reload()
+      // window.location.reload()
     }
   }
 
