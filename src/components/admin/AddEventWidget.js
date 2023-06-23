@@ -52,11 +52,11 @@ export default function AddEventWidget() {
         .then(() => console.log(`Entry ${entryId} published.`))
         .catch(console.error)
 
-      // setEventTitle(null)
-      // setEventTime(null)
-      // setEventSubtitle(null)
-      // setEventDescription(null)
-      // window.location.reload()
+      setEventTitle(null)
+      setEventTime(null)
+      setEventSubtitle(null)
+      setEventDescription(null)
+      window.location.reload()
     }
   }
 
@@ -110,7 +110,7 @@ export default function AddEventWidget() {
         </InputWrapper>
       </EditWrapper>
       <PreviewWrapper>
-        <Event event={event} />
+        <Event className="preview" event={event} />
         <Button onClick={handleSubmitClick}>Submit</Button>
       </PreviewWrapper>
     </Wrapper>
@@ -176,6 +176,10 @@ const PreviewWrapper = styled.div`
   grid-gap: 10px;
   align-items: center;
   justify-content: center;
+
+  & .preview {
+    transform: scale(0.5);
+  }
 `
 
 const Button = styled.div`
