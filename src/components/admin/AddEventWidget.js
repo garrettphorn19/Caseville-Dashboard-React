@@ -9,7 +9,6 @@ export default function AddEventWidget() {
   const [enteredEventTime, setEventTime] = useState(null)
   const [enteredEventSubtitle, setEventSubtitle] = useState(null)
   const [enteredEventDescription, setEventDescription] = useState(null)
-  const [entryId, setEntryId] = useState(null)
 
   const managementAccessToken = process.env.GATSBY_CONTENTFUL_MANAGEMENT_KEY
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
@@ -43,13 +42,6 @@ export default function AddEventWidget() {
         )
         .then(entry => publishEvent(entry.sys.id))
         .catch(console.error)
-
-      // setEventTitle(null)
-      // setEventTime(null)
-      // setEventSubtitle(null)
-      // setEventDescription(null)
-      // setEntryId(null)
-      // window.location.reload()
     }
   }
 
@@ -57,8 +49,6 @@ export default function AddEventWidget() {
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
-
-    console.log(id)
 
     client
       .getSpace(spaceId)
