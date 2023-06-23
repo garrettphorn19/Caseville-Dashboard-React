@@ -42,8 +42,8 @@ export default function AddEventWidget() {
           })
         )
         // .then(entry => setEntryId(entry.sys.id))
-        .then(entry => console.log(entry))
-        .then(entry => publishEvent(entry))
+        .then(entry => console.log(entry.sys.id))
+        .then(entry => publishEvent(entry.sys.id))
         .catch(console.error)
 
       // setEventTitle(null)
