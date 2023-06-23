@@ -12,6 +12,7 @@ export default function AddEventWidget() {
   const [entryId, setEntryId] = useState(null)
 
   const managementAccessToken = process.env.GATSBY_CONTENTFUL_MANAGEMENT_KEY
+  const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
 
   function handleSubmitClick() {
     if (enteredEventTitle && enteredEventTitle !== "" && enteredEventTime) {
@@ -20,7 +21,7 @@ export default function AddEventWidget() {
       })
 
       client
-        .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+        .getSpace(spaceId)
         .then(space => space.getEnvironment("master"))
         .then(environment =>
           environment.createEntry("event", {
@@ -41,10 +42,8 @@ export default function AddEventWidget() {
           })
         )
         // .then(entry => setEntryId(entry.sys.id))
-        .then(entry => console.log(entry.sys.id))
-        // .then(() => {
-
-        // })
+        .then(entry => console.log(entry))
+        .then(entry => publishEvent(entry))
         .catch(console.error)
 
       // setEventTitle(null)
@@ -56,9 +55,13 @@ export default function AddEventWidget() {
     }
   }
 
-  function publishEvent(client, id) {
+  function publishEvent(id) {
+    const client = contentful.createClient({
+      accessToken: managementAccessToken,
+    })
+
     client
-      .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+      .getSpace(spaceId)
       .then(space => space.getEnvironment("master"))
       .then(environment => environment.getEntry(id))
       .then(entry => entry.publish())
