@@ -40,16 +40,10 @@ export default function AddEventWidget() {
             },
           })
         )
-        .then(entry => setEntryId(entry.sys.id))
-        .then(() => console.log(entryId))
+        // .then(entry => setEntryId(entry.sys.id))
+        .then(entry => console.log(entry.sys.id))
         // .then(() => {
-        //   client
-        //     .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
-        //     .then(space => space.getEnvironment("master"))
-        //     .then(environment => environment.getEntry(entryId))
-        //     .then(entry => entry.publish())
-        //     .then(() => console.log(`Entry ${entryId} published.`))
-        //     .catch(console.error)
+
         // })
         .catch(console.error)
 
@@ -60,6 +54,16 @@ export default function AddEventWidget() {
       // setEntryId(null)
       // window.location.reload()
     }
+  }
+
+  function publishEvent(client, id) {
+    client
+      .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+      .then(space => space.getEnvironment("master"))
+      .then(environment => environment.getEntry(id))
+      .then(entry => entry.publish())
+      .then(() => console.log(`Entry ${id} published.`))
+      .catch(console.error)
   }
 
   const event = {
