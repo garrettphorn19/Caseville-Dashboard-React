@@ -42,15 +42,15 @@ export default function AddEventWidget() {
         )
         .then(entry => setEntryId(entry.sys.id))
         .then(() => console.log(entryId))
-        .then(() => {
-          client
-            .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
-            .then(space => space.getEnvironment("master"))
-            .then(environment => environment.getEntry(entryId))
-            .then(entry => entry.publish())
-            .then(() => console.log(`Entry ${entryId} published.`))
-            .catch(console.error)
-        })
+        // .then(() => {
+        //   client
+        //     .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+        //     .then(space => space.getEnvironment("master"))
+        //     .then(environment => environment.getEntry(entryId))
+        //     .then(entry => entry.publish())
+        //     .then(() => console.log(`Entry ${entryId} published.`))
+        //     .catch(console.error)
+        // })
         .catch(console.error)
 
       // setEventTitle(null)
