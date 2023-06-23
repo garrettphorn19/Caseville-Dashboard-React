@@ -40,22 +40,24 @@ export default function AddEventWidget() {
             },
           })
         )
-        // .then(entry => console.log(entry.sys.id))
         .then(entry => setEntryId(entry.sys.id))
+        .then(() => console.log(entryId))
+        .then(() => {
+          client
+            .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+            .then(space => space.getEnvironment("master"))
+            .then(environment => environment.getEntry(entryId))
+            .then(entry => entry.publish())
+            .then(() => console.log(`Entry ${entryId} published.`))
+            .catch(console.error)
+        })
         .catch(console.error)
 
-      client
-        .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
-        .then(space => space.getEnvironment("master"))
-        .then(environment => environment.getEntry(entryId))
-        .then(entry => entry.publish())
-        .then(() => console.log(`Entry ${entryId} published.`))
-        .catch(console.error)
-
-      setEventTitle(null)
-      setEventTime(null)
-      setEventSubtitle(null)
-      setEventDescription(null)
+      // setEventTitle(null)
+      // setEventTime(null)
+      // setEventSubtitle(null)
+      // setEventDescription(null)
+      // setEntryId(null)
       // window.location.reload()
     }
   }
