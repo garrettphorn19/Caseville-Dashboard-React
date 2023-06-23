@@ -64,6 +64,14 @@ const EventWrapper = styled.div`
   box-shadow: ${props =>
     props.active ? "inset 0px 0px 0px 0.5px rgba(68, 66, 178, 0.2)" : "none"};
   border-radius: 10px;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+      0px 20px 40px rgba(23, 0, 102, 0.2),
+      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  }
 `
 
 const TextWrapper = styled.div`

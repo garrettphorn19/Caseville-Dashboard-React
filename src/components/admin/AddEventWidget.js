@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import Event from "../widgets/Event"
 
@@ -60,17 +60,16 @@ export default function AddEventWidget() {
     <Wrapper>
       <EditWrapper>
         <InputWrapper>
-          <label>Title</label>
           <input
             type="text"
             name="eventTitleInput"
+            placeholder="Title"
             onChange={event => {
               setEventTitle(event.target.value)
             }}
           />
         </InputWrapper>
         <InputWrapper>
-          <label>Start Time</label>
           <input
             type="datetime-local"
             name="eventTimeInput"
@@ -80,28 +79,28 @@ export default function AddEventWidget() {
           />
         </InputWrapper>
         <InputWrapper>
-          <label>Subtitle</label>
           <input
             type="text"
             name="eventSubtitleInput"
+            placeholder="Subtitle"
             onChange={event => {
               setEventSubtitle(event.target.value)
             }}
           />
         </InputWrapper>
         <InputWrapper>
-          <label>Description</label>
           <textarea
             name="eventDescriptionInput"
+            placeholder="Description"
             onChange={event => {
               setEventDescription(event.target.value)
             }}
           />
         </InputWrapper>
-        <Button onClick={handleSubmitClick}>Submit</Button>
       </EditWrapper>
       <PreviewWrapper>
         <Event event={event} />
+        <Button onClick={handleSubmitClick}>Submit</Button>
       </PreviewWrapper>
     </Wrapper>
   )
@@ -109,10 +108,15 @@ export default function AddEventWidget() {
 
 const Wrapper = styled.div`
   background: red;
+  padding: 15px;
   display: grid;
   grid-template-columns: repeat(2, auto);
   grid-gap: 50px;
   align-items: center;
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(1, auto);
+  }
 `
 
 const EditWrapper = styled.div`
@@ -127,13 +131,54 @@ const InputWrapper = styled.div`
   grid-template-rows: repeat(2, auto);
   grid-gap: 5px;
   justify-content: center;
+
+  input {
+    height: 50px;
+    width: 450px;
+    font-size: 18px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 15px;
+  }
+
+  textarea {
+    height: 100px;
+    width: 450px;
+    font-size: 18px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 15px;
+  }
 `
 
 const PreviewWrapper = styled.div`
-  display: grid;
-  grid-template-rows: auto;
+  display: flex;
+  flex-direction: column;
   grid-gap: 10px;
+  align-items: center;
   justify-content: center;
 `
 
-const Button = styled.div``
+const Button = styled.div`
+  width: 150px;
+  padding: 15px 15px;
+  background: white;
+  border-radius: 15px;
+  text-align: center;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+      0px 20px 40px rgba(23, 0, 102, 0.2),
+      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    transform: scale(0.95) translateY(5px);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+      0px 20px 40px rgba(23, 0, 102, 0.2),
+      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  }
+`
