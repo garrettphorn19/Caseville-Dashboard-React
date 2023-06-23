@@ -9,6 +9,7 @@ export default function AddEventWidget() {
   const [enteredEventTime, setEventTime] = useState(null)
   const [enteredEventSubtitle, setEventSubtitle] = useState(null)
   const [enteredEventDescription, setEventDescription] = useState(null)
+  const [entryId, setEntryId] = useState(null)
 
   const managementAccessToken = process.env.GATSBY_CONTENTFUL_MANAGEMENT_KEY
 
@@ -39,13 +40,23 @@ export default function AddEventWidget() {
             },
           })
         )
-        .then(entry => console.log(entry))
+        // .then(entry => console.log(entry.sys.id))
+        .then(entry => setEntryId(entry.sys.id))
         .catch(console.error)
 
-      setEventTitle(null)
-      setEventTime(null)
-      setEventSubtitle(null)
-      setEventDescription(null)
+      client
+        .getSpace(process.env.GATSBY_CONTENTFUL_SPACE_ID)
+        .then(space => space.getEnvironment("master"))
+        .then(environment => environment.getEntry(entryId))
+        .then(entry => entry.publish())
+        .then(() => console.log(`Entry ${entryId} published.`))
+        .catch(console.error)
+
+      // setEventTitle(null)
+      // setEventTime(null)
+      // setEventSubtitle(null)
+      // setEventDescription(null)
+      // window.location.reload()
     }
   }
 
@@ -139,6 +150,10 @@ const InputWrapper = styled.div`
     padding: 5px 15px;
     border: none;
     border-radius: 15px;
+
+    @media (max-width: 500px) {
+      width: 300px;
+    }
   }
 
   textarea {
@@ -148,6 +163,10 @@ const InputWrapper = styled.div`
     padding: 5px 15px;
     border: none;
     border-radius: 15px;
+
+    @media (max-width: 500px) {
+      width: 300px;
+    }
   }
 `
 
