@@ -13,4 +13,10 @@ export default function AdminHome() {
   )
 }
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  align-items: center;
+  justify-content: center;
+`

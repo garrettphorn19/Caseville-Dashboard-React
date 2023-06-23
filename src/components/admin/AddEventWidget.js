@@ -125,6 +125,9 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(2, auto);
   grid-gap: 50px;
   align-items: center;
+  padding: 25px;
+  border: none;
+  border-radius: 15px;
 
   @media (max-width: 500px) {
     grid-template-columns: repeat(1, auto);
