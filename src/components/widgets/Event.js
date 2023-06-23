@@ -72,6 +72,10 @@ const EventWrapper = styled.div`
       0px 20px 40px rgba(23, 0, 102, 0.2),
       inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
   }
+
+  @media (max-width: 500px) {
+    transform: scale(0.5);
+  }
 `
 
 const TextWrapper = styled.div`

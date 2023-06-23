@@ -176,10 +176,6 @@ const PreviewWrapper = styled.div`
   grid-gap: 10px;
   align-items: center;
   justify-content: center;
-
-  & .preview {
-    transform: scale(0.5);
-  }
 `
 
 const Button = styled.div`
