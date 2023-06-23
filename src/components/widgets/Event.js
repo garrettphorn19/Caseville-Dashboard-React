@@ -74,7 +74,7 @@ const EventWrapper = styled.div`
   }
 
   @media (max-width: 500px) {
-    transform: scale(0.5);
+    transform: scale(0.75);
   }
 `
 

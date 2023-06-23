@@ -118,6 +118,7 @@ export default function AddEventWidget() {
 }
 
 const Wrapper = styled.div`
+  width: 100%;
   background: red;
   padding: 15px;
   display: grid;
