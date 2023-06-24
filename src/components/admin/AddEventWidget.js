@@ -86,7 +86,8 @@ export default function AddEventWidget() {
               type="datetime-local"
               name="eventTimeInput"
               onChange={event => {
-                setEventTime(event.target.value)
+                setEventTime(event.target.value + ":00.000-04:00")
+                console.log(enteredEventTime)
               }}
             />
           </InputWrapper>
