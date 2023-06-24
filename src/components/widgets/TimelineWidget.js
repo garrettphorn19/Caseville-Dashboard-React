@@ -14,7 +14,7 @@ export default function TimelineWidget(props) {
   // Queries GraphQL data from Contentful
   const query = `
   {
-    eventCollection(order: eventTime_ASC, where:{eventTime_gte:"${year}-${monthStr}-${dateStr}T00:00:00.000-00:00", eventTime_lte:"${year}-${monthStr}-${dateStr}T23:59:00.000-04:00"}) {
+    eventCollection(order: eventTime_ASC, where:{eventTime_gte:"${year}-${monthStr}-${dateStr}T00:00:00.000-04:00", eventTime_lte:"${year}-${monthStr}-${dateStr}T23:59:00.000-04:00"}) {
       items {
         eventTitle
         eventTime

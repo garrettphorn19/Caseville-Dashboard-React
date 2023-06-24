@@ -68,69 +68,78 @@ export default function AddEventWidget() {
 
   return (
     <Wrapper>
-      <EditWrapper>
-        <InputWrapper>
-          <input
-            type="text"
-            name="eventTitleInput"
-            placeholder="Title"
-            onChange={event => {
-              setEventTitle(event.target.value)
-            }}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <input
-            type="datetime-local"
-            name="eventTimeInput"
-            onChange={event => {
-              setEventTime(event.target.value)
-            }}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <input
-            type="text"
-            name="eventSubtitleInput"
-            placeholder="Subtitle"
-            onChange={event => {
-              setEventSubtitle(event.target.value)
-            }}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <textarea
-            name="eventDescriptionInput"
-            placeholder="Description"
-            onChange={event => {
-              setEventDescription(event.target.value)
-            }}
-          />
-        </InputWrapper>
-      </EditWrapper>
-      <PreviewWrapper>
-        <Event className="preview" event={event} />
-        <Button onClick={handleSubmitClick}>Submit</Button>
-      </PreviewWrapper>
+      <Title>Add Event</Title>
+      <ContentWrapper>
+        <EditWrapper>
+          <InputWrapper>
+            <input
+              type="text"
+              name="eventTitleInput"
+              placeholder="Title"
+              onChange={event => {
+                setEventTitle(event.target.value)
+              }}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <input
+              type="datetime-local"
+              name="eventTimeInput"
+              onChange={event => {
+                setEventTime(event.target.value)
+              }}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <input
+              type="text"
+              name="eventSubtitleInput"
+              placeholder="Subtitle"
+              onChange={event => {
+                setEventSubtitle(event.target.value)
+              }}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <textarea
+              name="eventDescriptionInput"
+              placeholder="Description"
+              onChange={event => {
+                setEventDescription(event.target.value)
+              }}
+            />
+          </InputWrapper>
+        </EditWrapper>
+        <PreviewWrapper>
+          <Event className="preview" event={event} />
+          <Button onClick={handleSubmitClick}>Submit</Button>
+        </PreviewWrapper>
+      </ContentWrapper>
     </Wrapper>
   )
 }
-
 const Wrapper = styled.div`
   width: 100%;
   background: red;
-  padding: 15px;
+  padding: 25px;
+  border-radius: 15px;
+  gap: 10px;
+`
+const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, auto);
   grid-gap: 50px;
   align-items: center;
-  padding: 25px;
-  border: none;
-  border-radius: 15px;
 
   @media (max-width: 500px) {
     grid-template-columns: repeat(1, auto);
   }
+`
+const Title = styled.p`
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 0 0 15px;
 `
 
 const EditWrapper = styled.div`
