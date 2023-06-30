@@ -64,14 +64,6 @@ const EventWrapper = styled.div`
   box-shadow: ${props =>
     props.active ? "inset 0px 0px 0px 0.5px rgba(68, 66, 178, 0.2)" : "none"};
   border-radius: 10px;
-  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-
-  &:hover {
-    transform: scale(1.05) translateY(-5px);
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-      0px 20px 40px rgba(23, 0, 102, 0.2),
-      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
-  }
 
   @media (max-width: 500px) {
     transform: scale(0.75);
@@ -136,7 +128,6 @@ const TimeWrapper = styled.div`
 `
 
 const Time = styled.p`
-  width: 42px;
   height: 24px;
   font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
@@ -150,12 +141,10 @@ const Time = styled.p`
 `
 
 const Title = styled.p`
-  width: 179px;
-  height: 36px;
   font-family: "SF Pro Rounded", "Open Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 30px;
+  font-size: 28px;
   line-height: 36px;
   display: flex;
   align-items: center;

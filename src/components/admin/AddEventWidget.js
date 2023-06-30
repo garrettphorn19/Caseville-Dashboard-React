@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useReducer } from "react"
 import styled from "styled-components"
 import Event from "../widgets/Event"
 
@@ -42,6 +42,10 @@ export default function AddEventWidget() {
         )
         .then(entry => publishEvent(entry.sys.id))
         .catch(console.error)
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 5000)
     }
   }
 
@@ -67,11 +71,11 @@ export default function AddEventWidget() {
   }
 
   return (
-    <Wrapper>
+    <Widget>
       <Title>Add Event</Title>
-      <ContentWrapper>
-        <EditWrapper>
-          <InputWrapper>
+      <ContentContainer>
+        <TopRowContainer>
+          <TitleInput>
             <input
               type="text"
               name="eventTitleInput"
@@ -80,18 +84,21 @@ export default function AddEventWidget() {
                 setEventTitle(event.target.value)
               }}
             />
-          </InputWrapper>
-          <InputWrapper>
+          </TitleInput>
+          <DateInput>
             <input
               type="datetime-local"
               name="eventTimeInput"
+              placeholder="Date/Time"
               onChange={event => {
                 setEventTime(event.target.value + ":00.000-04:00")
                 console.log(enteredEventTime)
               }}
             />
-          </InputWrapper>
-          <InputWrapper>
+          </DateInput>
+        </TopRowContainer>
+        <MiddleRowContainer>
+          <SubtitleInput>
             <input
               type="text"
               name="eventSubtitleInput"
@@ -100,8 +107,10 @@ export default function AddEventWidget() {
                 setEventSubtitle(event.target.value)
               }}
             />
-          </InputWrapper>
-          <InputWrapper>
+          </SubtitleInput>
+        </MiddleRowContainer>
+        <BottomRowContainer>
+          <DescriptionInput>
             <textarea
               name="eventDescriptionInput"
               placeholder="Description"
@@ -109,98 +118,204 @@ export default function AddEventWidget() {
                 setEventDescription(event.target.value)
               }}
             />
-          </InputWrapper>
-        </EditWrapper>
-        <PreviewWrapper>
+          </DescriptionInput>
+        </BottomRowContainer>
+        <PreviewContainer>
           <Event className="preview" event={event} />
-          <Button onClick={handleSubmitClick}>Submit</Button>
-        </PreviewWrapper>
-      </ContentWrapper>
-    </Wrapper>
+        </PreviewContainer>
+        <Button onClick={handleSubmitClick}>Submit</Button>
+      </ContentContainer>
+    </Widget>
   )
 }
-const Wrapper = styled.div`
-  width: 100%;
-  background: red;
-  padding: 25px;
-  border-radius: 15px;
-  gap: 10px;
-`
-const ContentWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-gap: 50px;
+const Widget = styled.div`
   align-items: center;
-
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(1, auto);
-  }
-`
-const Title = styled.p`
-  color: white;
-  font-size: 24px;
-  font-weight: 600;
-  padding: 0 0 15px;
-`
-
-const EditWrapper = styled.div`
-  display: grid;
-  grid-template-rows: repeat(5, auto);
-  grid-gap: 10px;
-  justify-content: center;
-`
-
-const InputWrapper = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  grid-gap: 5px;
-  justify-content: center;
-
-  input {
-    height: 50px;
-    width: 450px;
-    font-size: 18px;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 15px;
-
-    @media (max-width: 500px) {
-      width: 300px;
-    }
-  }
-
-  textarea {
-    height: 100px;
-    width: 450px;
-    font-size: 18px;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 15px;
-
-    @media (max-width: 500px) {
-      width: 300px;
-    }
-  }
-`
-
-const PreviewWrapper = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgb(255, 74.37, 74.37) 0%,
+    rgb(168.94, 0, 0) 100%
+  );
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+    inset 0px 0px 0px 0.5px #ffffff80;
   display: flex;
   flex-direction: column;
-  grid-gap: 10px;
-  align-items: center;
-  justify-content: center;
+  height: fit-content;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 20px 166px;
+  position: relative;
+  width: fit-content;
 `
 
-const Button = styled.div`
-  width: 150px;
-  padding: 15px 15px;
-  background: white;
-  border-radius: 15px;
+const Title = styled.p`
+  color: #ffffff;
+  font-family: "SF Pro Rounded-Bold", "Open Sans";
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
   text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+`
+const ContentContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 36px 50px;
+  position: relative;
+  width: fit-content;
+`
+
+const TopRowContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  position: relative;
+  width: 498px;
+`
+
+const MiddleRowContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: 498px;
+`
+
+const BottomRowContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: 498px;
+`
+
+const TitleInput = styled.div`
+  input {
+    width: 214px;
+    height: 24px;
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    overflow: hidden;
+    padding: 21px 15px;
+    position: relative;
+  }
+`
+const DateInput = styled.div`
+  input {
+    width: 214px;
+    height: 24px;
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    overflow: hidden;
+    padding: 21px 15px;
+    position: relative;
+  }
+`
+const SubtitleInput = styled.div`
+  input {
+    width: 468px;
+    height: 24px;
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    overflow: hidden;
+    padding: 21px 15px;
+    position: relative;
+  }
+`
+const DescriptionInput = styled.div`
+  textarea {
+    width: 468px;
+    height: 78px;
+    align-items: flex-start;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    overflow: hidden;
+    padding: 21px 15px;
+    position: relative;
+  }
+`
+
+const PreviewContainer = styled.div`
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 13px 24px;
+  position: relative;
+  width: fit-content;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   &:hover {
-    transform: scale(1.05) translateY(-5px);
+    transform: scale(1.02) translateY(-2px);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+      0px 20px 40px rgba(23, 0, 102, 0.2),
+      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  }
+`
+
+const Button = styled.div`
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+    inset 0px 0px 0px 0.5px #ffffff80;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 20px;
+  position: relative;
+  width: fit-content;
+
+  color: #000000;
+  font-family: "SF Pro Rounded-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &:hover {
+    transform: scale(1.02) translateY(-2px);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
       0px 20px 40px rgba(23, 0, 102, 0.2),
       inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);

@@ -3,22 +3,38 @@ import styled from "styled-components"
 
 import AddEventWidget from "./AddEventWidget"
 import AddPhotoWidget from "./AddPhotoWidget"
+import DeleteEventWidget from "./DeleteEventWidget"
+import DeletePhotoWidget from "./DeletePhotoWidget"
 
 export default function AdminHome() {
   return (
     <Wrapper>
-      <AddEventWidget />
-      <AddPhotoWidget />
+      <TopRowContainer>
+        <AddEventWidget />
+        <AddPhotoWidget />
+      </TopRowContainer>
+      {/* <DeleteEventWidget />
+      <DeletePhotoWidget /> */}
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  grid-gap: 20px;
   align-items: center;
-  justify-content: center;
+  background-color: #d1d1d6;
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 1920px;
   padding: 20px;
+  position: relative;
+`
+const TopRowContainer = styled.div`
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  position: relative;
 `

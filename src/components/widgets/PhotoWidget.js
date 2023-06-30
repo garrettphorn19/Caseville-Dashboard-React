@@ -4,62 +4,32 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from "react-responsive-carousel"
 import Photo from "./Photo"
 
+const contentful = require("contentful-management")
+
 export default function PhotoWidget() {
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
-  const accessToken = process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN
-
-  // Queries GraphQL data from Contentful
-  const query = `
-  {
-    imageCollection(order:timeUploaded_ASC) {
-      items {
-        image {
-          title
-          description
-          contentType
-          fileName
-          size
-          url
-          width
-          height
-        }
-        author
-        description
-        timeUploaded
-      }
-    }
-  }
-  `
+  const managementAccessToken = process.env.GATSBY_CONTENTFUL_MANAGEMENT_KEY
 
   const [photos, setPhotos] = useState(null)
 
-  // Pulls data from query and sets events state with array
   useEffect(() => {
-    window
-      .fetch(`https://graphql.contentful.com/content/v1/spaces/${spaceId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Authenticate the request
-          Authorization: `Bearer ${accessToken}`,
-        },
-        // send the GraphQL query
-        body: JSON.stringify({ query }),
-      })
-      .then(response => response.json())
-      .then(({ data, errors }) => {
-        if (errors) {
-          console.error(errors)
-        }
+    const client = contentful.createClient({
+      accessToken: managementAccessToken,
+    })
 
-        // rerender the entire component with new data
-        setPhotos(data.imageCollection.items)
-      })
-  }, [spaceId, accessToken, query])
+    client
+      .getSpace(spaceId)
+      .then(space => space.getEnvironment("master"))
+      .then(environment => environment.getAssets())
+      .then(response => setPhotos(response.items))
+      .catch(console.error)
+  }, [spaceId, managementAccessToken])
 
   if (!photos) {
     return "Loading Photos..."
   }
+
+  console.log(photos)
 
   return (
     <Widget>

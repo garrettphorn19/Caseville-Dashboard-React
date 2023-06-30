@@ -6,10 +6,12 @@ export default function Photo(props) {
 
   return (
     <Wrapper>
-      <Image src={photo.image.url} />
+      <Image src={photo.fields.file["en-US"].url} />
       <TextWrapper>
-        <Author>{photo.author}</Author>
-        <Description>{photo.description}</Description>
+        <Author>{photo.fields.title["en-US"]}</Author>
+        <Description>
+          {photo.fields.description ? photo.fields.description["en-US"] : ""}
+        </Description>
       </TextWrapper>
     </Wrapper>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 const contentful = require("contentful-management")
@@ -11,6 +11,8 @@ export default function AddPhotoWidget() {
   const [photoDescription, setDescription] = useState(null)
   const [photoUploadTime, setUploadTime] = useState(null)
   const [selectedPhoto, setPhoto] = useState(null)
+  const [currentAssetId, setCurrentAssetId] = useState(null)
+  const [preview, setPreview] = useState()
 
   function authorChangedHandler(event) {
     setAuthor(event.target.value)
@@ -57,90 +59,255 @@ export default function AddPhotoWidget() {
       )
       .then(asset => asset.processForAllLocales())
       .then(asset => asset.publish())
-      .then(asset => console.log(asset))
       .catch(console.error)
   }
 
+  useEffect(() => {
+    if (!selectedPhoto) {
+      setPreview(undefined)
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(selectedPhoto)
+    setPreview(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedPhoto])
+
   return (
-    <Wrapper>
+    <Widget>
       <Title>Add Photo</Title>
-      <InputWrapper>
+      <ContentContainer>
+        <AuthorContainer>
+          <InputField>
+            <input
+              type="text"
+              placeholder="Author"
+              onChange={authorChangedHandler}
+            />
+          </InputField>
+        </AuthorContainer>
+        <DescriptionContainer>
+          <InputField>
+            <input
+              type="text"
+              placeholder="Description"
+              onChange={descriptionChangedHandler}
+            />
+          </InputField>
+        </DescriptionContainer>
+        <PhotoPreview>
+          <PreviewImage id="photoPreview" src={preview} />
+        </PhotoPreview>
         <input
-          type="text"
-          placeholder="Author"
-          onChange={authorChangedHandler}
+          type="datetime-local"
+          name="eventTimeInput"
+          onChange={timeChangedHandler}
+          hidden
         />
-        <input
-          type="text"
-          placeholder="Description"
-          onChange={descriptionChangedHandler}
-        />
-        <InputWrapper>
-          <input
-            type="datetime-local"
-            name="eventTimeInput"
-            onChange={timeChangedHandler}
-            hidden
-          />
-        </InputWrapper>
-        <input type="file" onChange={fileChangedHandler} />
-        <Button onClick={handleSubmitClick}>Submit</Button>
-      </InputWrapper>
-    </Wrapper>
+        <ButtonContainer>
+          <ChooseButton>
+            <label htmlFor="photoUpload">
+              <input
+                accept="image/*"
+                type="file"
+                id="photoUpload"
+                onChange={fileChangedHandler}
+              />
+              Choose Photo
+            </label>
+          </ChooseButton>
+          <SubmitButton onClick={handleSubmitClick}>Submit</SubmitButton>
+        </ButtonContainer>
+      </ContentContainer>
+    </Widget>
   )
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  background: purple;
-  padding: 15px;
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  grid-gap: 50px;
+const Widget = styled.div`
   align-items: center;
-  justify-content: start;
-  padding: 25px;
-  border: none;
-  border-radius: 15px;
+  background: linear-gradient(
+    180deg,
+    rgb(190.8, 86.06, 255) 0%,
+    rgb(93.54, 0, 150.87) 100%
+  );
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+    inset 0px 0px 0px 0.5px #ffffff80;
+  display: flex;
+  flex-direction: column;
+  height: 693px;
+  justify-content: space-between;
+  left: 0;
+  overflow: hidden;
+  padding: 20px 166px;
+  width: fit-content;
+`
+const Title = styled.p`
+  color: #ffffff;
+  font-family: "SF Pro Rounded-Bold", "Open Sans";
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+`
 
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(1, auto);
+const ContentContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 36px 50px;
+  position: relative;
+  width: fit-content;
+`
+
+const AuthorContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+`
+
+const DescriptionContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+`
+
+const InputField = styled.div`
+  input {
+    width: 486px;
+    height: 24px;
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    overflow: hidden;
+    padding: 21px 15px;
+    position: relative;
   }
 `
 
-const Title = styled.p`
-  color: white;
-  font-size: 24px;
-  font-weight: 600;
-  padding: 0 0 15px;
+const PhotoPreview = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+  border-radius: 25px;
+  background: #ffffff;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+      0px 20px 40px rgba(23, 0, 102, 0.2),
+      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  }
 `
 
-const InputWrapper = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  grid-gap: 5px;
-  justify-content: center;
+const PreviewImage = styled.img`
+  background: transparent;
+  background-position: 50% 50%;
+  background-size: cover;
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+    inset 0px 0px 0px 0.5px #ffffff80;
+  flex: 1;
+  height: 288px;
+  max-width: 498px;
+  position: relative;
+`
 
-  input {
-    height: 50px;
-    width: 450px;
-    font-size: 18px;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 15px;
+const ButtonContainer = styled.div`
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  position: relative;
+  width: fit-content;
+`
 
-    @media (max-width: 500px) {
-      width: 300px;
+const ChooseButton = styled.div`
+  input[type="file"] {
+    display: none;
+  }
+
+  label {
+    color: #000000;
+    font-family: "SF Pro Rounded-Bold", "Open Sans";
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+      inset 0px 0px 0px 0.5px #ffffff80;
+    display: inline-block;
+
+    gap: 20px;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px 20px;
+    position: relative;
+    width: fit-content;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    &:hover {
+      transform: scale(1.05) translateY(-5px);
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+        0px 20px 40px rgba(23, 0, 102, 0.2),
+        inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+    }
+
+    &:active {
+      transform: scale(0.95) translateY(5px);
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
+        0px 20px 40px rgba(23, 0, 102, 0.2),
+        inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
     }
   }
 `
 
-const Button = styled.div`
-  width: 150px;
-  padding: 15px 15px;
-  background: white;
-  border-radius: 15px;
+const SubmitButton = styled.div`
+  color: #000000;
+  font-family: "SF Pro Rounded-Bold", "Open Sans";
+  font-size: 24px;
+  font-weight: 700;
   text-align: center;
+
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
+    inset 0px 0px 0px 0.5px #ffffff80;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 20px;
+  position: relative;
+  width: fit-content;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   &:hover {
