@@ -8,7 +8,7 @@
     "babel-plugin-styled-components": "^2.1.3",
     "contentful-management": "^10.38.0",
     "gatsby": "^5.3.3",
-    "gatsby-cli": "^5.11.0",
+    "gatsby-cli": "^5.12.0",
     "gatsby-omni-font-loader": "^2.0.2",
     "gatsby-plugin-image": "^3.3.2",
     "gatsby-plugin-manifest": "^5.3.1",

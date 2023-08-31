@@ -60,6 +60,8 @@ export default function AddPhotoWidget() {
       .then(asset => asset.processForAllLocales())
       .then(asset => asset.publish())
       .catch(console.error)
+
+    setPhoto(null)
   }
 
   useEffect(() => {
@@ -79,24 +81,20 @@ export default function AddPhotoWidget() {
     <Widget>
       <Title>Add Photo</Title>
       <ContentContainer>
-        <AuthorContainer>
-          <InputField>
-            <input
-              type="text"
-              placeholder="Author"
-              onChange={authorChangedHandler}
-            />
-          </InputField>
-        </AuthorContainer>
-        <DescriptionContainer>
-          <InputField>
-            <input
-              type="text"
-              placeholder="Description"
-              onChange={descriptionChangedHandler}
-            />
-          </InputField>
-        </DescriptionContainer>
+        <InputField>
+          <input
+            type="text"
+            placeholder="Author"
+            onChange={authorChangedHandler}
+          />
+        </InputField>
+        <InputField>
+          <input
+            type="text"
+            placeholder="Description"
+            onChange={descriptionChangedHandler}
+          />
+        </InputField>
         <PhotoPreview>
           <PreviewImage id="photoPreview" src={preview} />
         </PhotoPreview>
@@ -143,6 +141,10 @@ const Widget = styled.div`
   overflow: hidden;
   padding: 20px 166px;
   width: fit-content;
+
+  @media (max-width: 450px) {
+    width: 410px;
+  }
 `
 const Title = styled.p`
   color: #ffffff;
@@ -168,25 +170,14 @@ const ContentContainer = styled.div`
   width: fit-content;
 `
 
-const AuthorContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
-`
-
-const DescriptionContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
-`
-
 const InputField = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+
   input {
     width: 486px;
     height: 24px;
@@ -202,6 +193,10 @@ const InputField = styled.div`
     overflow: hidden;
     padding: 21px 15px;
     position: relative;
+
+    @media (max-width: 450px) {
+      width: 310px;
+    }
   }
 `
 

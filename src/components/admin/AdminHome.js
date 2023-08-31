@@ -10,8 +10,8 @@ export default function AdminHome() {
   return (
     <Wrapper>
       <TopRowContainer>
-        <AddEventWidget />
         <AddPhotoWidget />
+        {/* <AddEventWidget /> */}
       </TopRowContainer>
       {/* <DeleteEventWidget />
       <DeletePhotoWidget /> */}
@@ -26,9 +26,13 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-width: 1920px;
+  /* min-width: 1920px; */
   padding: 20px;
   position: relative;
+
+  @media (max-width: 450px) {
+    flex-direction: row;
+  }
 `
 const TopRowContainer = styled.div`
   align-items: flex-start;
