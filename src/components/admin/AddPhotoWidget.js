@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
+import Spinner from "./Spinner"
+
 const contentful = require("contentful-management")
 
 export default function AddPhotoWidget() {
@@ -13,6 +15,7 @@ export default function AddPhotoWidget() {
   const [selectedPhoto, setPhoto] = useState(null)
   const [currentAssetId, setCurrentAssetId] = useState(null)
   const [preview, setPreview] = useState()
+  const [isSubmitting, setSubmitting] = useState(false)
 
   function authorChangedHandler(event) {
     setAuthor(event.target.value)
@@ -31,6 +34,8 @@ export default function AddPhotoWidget() {
   }
 
   function handleSubmitClick() {
+    setSubmitting(true)
+
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
@@ -62,6 +67,8 @@ export default function AddPhotoWidget() {
       .catch(console.error)
 
     setPhoto(null)
+
+    setTimeout(() => setSubmitting(false), 2000)
   }
 
   useEffect(() => {
@@ -77,7 +84,14 @@ export default function AddPhotoWidget() {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedPhoto])
 
-  return (
+  return isSubmitting ? (
+    <Widget>
+      <Title>Add Photo</Title>
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    </Widget>
+  ) : (
     <Widget>
       <Title>Add Photo</Title>
       <ContentContainer>
