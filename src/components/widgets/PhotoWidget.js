@@ -41,7 +41,7 @@ export default function PhotoWidget() {
       .getSpace(spaceId)
       .then(space => space.getEnvironment("master"))
       .then(environment => environment.getAssets())
-      .then(response => setPhotos(shuffle(response.items)))
+      .then(response => setPhotos(response.items))
       .catch(console.error)
   }, [spaceId, managementAccessToken])
 
