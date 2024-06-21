@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
 import styled from "styled-components"
 
 const contentful = require("contentful-management")
@@ -9,9 +10,7 @@ export default function AddPhotoWidget() {
 
   const [photoAuthor, setAuthor] = useState(null)
   const [photoDescription, setDescription] = useState(null)
-  const [photoUploadTime, setUploadTime] = useState(null)
   const [selectedPhoto, setPhoto] = useState(null)
-  const [currentAssetId, setCurrentAssetId] = useState(null)
   const [preview, setPreview] = useState()
 
   function authorChangedHandler(event) {
@@ -22,15 +21,20 @@ export default function AddPhotoWidget() {
     setDescription(event.target.value)
   }
 
-  function timeChangedHandler(event) {
-    setUploadTime(event.target.value)
-  }
-
   function fileChangedHandler(event) {
     setPhoto(event.target.files[0])
   }
 
-  function handleSubmitClick() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm()
+
+  const onSubmit = data => {
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
@@ -73,54 +77,58 @@ export default function AddPhotoWidget() {
 
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedPhoto])
+
+    if (formState.isSubmitSuccessful) {
+      reset()
+    }
+  }, [selectedPhoto, formState, reset])
 
   return (
     <Widget>
-      <Title>Add Photo</Title>
-      <ContentContainer>
-        <AuthorContainer>
-          <InputField>
-            <input
-              type="text"
-              placeholder="Author"
-              onChange={authorChangedHandler}
-            />
-          </InputField>
-        </AuthorContainer>
-        <DescriptionContainer>
-          <InputField>
-            <input
-              type="text"
-              placeholder="Description"
-              onChange={descriptionChangedHandler}
-            />
-          </InputField>
-        </DescriptionContainer>
-        <PhotoPreview>
-          <PreviewImage id="photoPreview" src={preview} />
-        </PhotoPreview>
-        <input
-          type="datetime-local"
-          name="eventTimeInput"
-          onChange={timeChangedHandler}
-          hidden
-        />
-        <ButtonContainer>
-          <ChooseButton>
-            <label htmlFor="photoUpload">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Title>Add Photo</Title>
+        <ContentContainer>
+          <AuthorContainer>
+            <InputField>
               <input
-                accept="image/*"
-                type="file"
-                id="photoUpload"
-                onChange={fileChangedHandler}
+                type="text"
+                placeholder="Author"
+                onChange={authorChangedHandler}
+                {...register("author", { required: true })}
               />
-              Choose Photo
-            </label>
-          </ChooseButton>
-          <SubmitButton onClick={handleSubmitClick}>Submit</SubmitButton>
-        </ButtonContainer>
-      </ContentContainer>
+              {errors.author && <span>This field is required</span>}
+            </InputField>
+          </AuthorContainer>
+          <DescriptionContainer>
+            <InputField>
+              <input
+                type="text"
+                placeholder="Description"
+                onChange={descriptionChangedHandler}
+                {...register("description", { required: true })}
+              />
+              {errors.description && <span>This field is required</span>}
+            </InputField>
+          </DescriptionContainer>
+          <PhotoPreview>
+            <PreviewImage id="photoPreview" src={preview} />
+          </PhotoPreview>
+          <ButtonContainer>
+            <ChooseButton>
+              <label htmlFor="photoUpload">
+                <input
+                  accept="image/*"
+                  type="file"
+                  id="photoUpload"
+                  onChange={fileChangedHandler}
+                />
+                Choose Photo
+              </label>
+            </ChooseButton>
+            <SubmitButton type="submit" />
+          </ButtonContainer>
+        </ContentContainer>
+      </form>
     </Widget>
   )
 }
@@ -289,7 +297,7 @@ const ChooseButton = styled.div`
   }
 `
 
-const SubmitButton = styled.div`
+const SubmitButton = styled.input`
   color: #000000;
   font-family: "SF Pro Rounded-Bold", "Open Sans";
   font-size: 24px;
