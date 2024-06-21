@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import styled from "styled-components"
 
+import Spinner from "./Spinner"
+
 const contentful = require("contentful-management")
 
 export default function AddPhotoWidget() {
@@ -12,6 +14,7 @@ export default function AddPhotoWidget() {
   const [photoDescription, setDescription] = useState(null)
   const [selectedPhoto, setPhoto] = useState(null)
   const [preview, setPreview] = useState()
+  const [isSubmitting, setSubmitting] = useState(false)
 
   function authorChangedHandler(event) {
     setAuthor(event.target.value)
@@ -25,16 +28,9 @@ export default function AddPhotoWidget() {
     setPhoto(event.target.files[0])
   }
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState,
-    formState: { errors, isSubmitSuccessful },
-  } = useForm()
+  function handleSubmitClick() {
+    setSubmitting(true)
 
-  const onSubmit = data => {
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
@@ -64,6 +60,10 @@ export default function AddPhotoWidget() {
       .then(asset => asset.processForAllLocales())
       .then(asset => asset.publish())
       .catch(console.error)
+
+    setPhoto(null)
+
+    setTimeout(() => setSubmitting(false), 2000)
   }
 
   useEffect(() => {
@@ -83,13 +83,43 @@ export default function AddPhotoWidget() {
     }
   }, [selectedPhoto, formState, reset])
 
-  return (
+  return isSubmitting ? (
     <Widget>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Title>Add Photo</Title>
-        <ContentContainer>
-          <AuthorContainer>
-            <InputField>
+      <Title>Add Photo</Title>
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    </Widget>
+  ) : (
+    <Widget>
+      <Title>Add Photo</Title>
+      <ContentContainer>
+        <InputField>
+          <input
+            type="text"
+            placeholder="Author"
+            onChange={authorChangedHandler}
+          />
+        </InputField>
+        <InputField>
+          <input
+            type="text"
+            placeholder="Description"
+            onChange={descriptionChangedHandler}
+          />
+        </InputField>
+        <PhotoPreview>
+          <PreviewImage id="photoPreview" src={preview} />
+        </PhotoPreview>
+        <input
+          type="datetime-local"
+          name="eventTimeInput"
+          onChange={timeChangedHandler}
+          hidden
+        />
+        <ButtonContainer>
+          <ChooseButton>
+            <label htmlFor="photoUpload">
               <input
                 type="text"
                 placeholder="Author"
@@ -151,6 +181,10 @@ const Widget = styled.div`
   overflow: hidden;
   padding: 20px 166px;
   width: fit-content;
+
+  @media (max-width: 450px) {
+    width: 410px;
+  }
 `
 const Title = styled.p`
   color: #ffffff;
@@ -176,25 +210,14 @@ const ContentContainer = styled.div`
   width: fit-content;
 `
 
-const AuthorContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
-`
-
-const DescriptionContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
-`
-
 const InputField = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+
   input {
     width: 486px;
     height: 24px;
@@ -210,6 +233,10 @@ const InputField = styled.div`
     overflow: hidden;
     padding: 21px 15px;
     position: relative;
+
+    @media (max-width: 450px) {
+      width: 310px;
+    }
   }
 `
 
