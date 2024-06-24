@@ -11,6 +11,7 @@ export default function AdminHome() {
     <Wrapper>
       <TopRowContainer>
         <AddEventWidget />
+        <AddPhotoWidget />
       </TopRowContainer>
       {/* <DeleteEventWidget />
       <DeletePhotoWidget /> */}
