@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout/layout"
@@ -9,6 +9,8 @@ import SunsetWidget from "../components/widgets/SunsetWidget"
 import WeatherWidget from "../components/widgets/WeatherWidget"
 import TimelineWidget from "../components/widgets/TimelineWidget"
 import PhotoWidget from "../components/widgets/PhotoWidget"
+
+const contentful = require("contentful-management")
 
 function IndexPage() {
   const today = new Date()
@@ -46,7 +48,7 @@ function IndexPage() {
     console.log(
       `Window Reloaded on ${day}, ${month} ${date} at ${today.getHours}:${today.getMinutes}:${today.getSeconds}:${today.getMilliseconds}`
     )
-  }, 900000)
+  }, 1000000)
 
   return (
     <Layout>
