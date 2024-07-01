@@ -230,7 +230,7 @@ const ChooseButton = styled.div`
 
   label {
     font-family: "SF Pro Rounded-Bold", "Open Sans";
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     background-color: #ffffff;
     border-radius: 25px;
@@ -259,7 +259,7 @@ const ChooseButton = styled.div`
 
 const SubmitButton = styled.div`
   font-family: "SF Pro Rounded-Bold", "Open Sans";
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   background-color: #ffffff;
   border-radius: 25px;
