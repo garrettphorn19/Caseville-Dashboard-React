@@ -153,6 +153,7 @@ const Widget = styled.div`
   flex-direction: column;
 
   height: 693px;
+  width: 930px;
   padding: 20px;
 `
 
