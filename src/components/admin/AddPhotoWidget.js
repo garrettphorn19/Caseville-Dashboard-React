@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { useForm } from "react-hook-form"
 import styled from "styled-components"
 
-// // import Spinner from "./Spinner"
+import Spinner from "./Spinner"
 
 const contentful = require("contentful-management")
 
@@ -12,7 +11,9 @@ export default function AddPhotoWidget() {
 
   const [photoAuthor, setAuthor] = useState(null)
   const [photoDescription, setDescription] = useState(null)
+  const [photoUploadTime, setUploadTime] = useState(null)
   const [selectedPhoto, setPhoto] = useState(null)
+  const [currentAssetId, setCurrentAssetId] = useState(null)
   const [preview, setPreview] = useState()
   const [isSubmitting, setSubmitting] = useState(false)
 
@@ -24,15 +25,21 @@ export default function AddPhotoWidget() {
     setDescription(event.target.value)
   }
 
+  function timeChangedHandler(event) {
+    setUploadTime(event.target.value)
+  }
+
   function fileChangedHandler(event) {
     setPhoto(event.target.files[0])
   }
 
   function handleSubmitClick() {
     setSubmitting(true)
+
     const client = contentful.createClient({
       accessToken: managementAccessToken,
     })
+
     client
       .getSpace(spaceId)
       .then(space => space.getEnvironment("master"))
@@ -58,29 +65,36 @@ export default function AddPhotoWidget() {
       .then(asset => asset.processForAllLocales())
       .then(asset => asset.publish())
       .catch(console.error)
+
     setPhoto(null)
+
     setTimeout(() => setSubmitting(false), 2000)
   }
+
   useEffect(() => {
     if (!selectedPhoto) {
       setPreview(undefined)
       return
     }
+
     const objectUrl = URL.createObjectURL(selectedPhoto)
     setPreview(objectUrl)
+
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedPhoto])
+
   return isSubmitting ? (
     <Widget>
       <Title>Add Photo</Title>
-      <ContentContainer>{/* <Spinner /> */}</ContentContainer>
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
     </Widget>
   ) : (
     <Widget>
       <Title>Add Photo</Title>
       <ContentContainer>
-        {/* AUTHOR INPUT START */}
         <InputField>
           <input
             type="text"
@@ -88,8 +102,6 @@ export default function AddPhotoWidget() {
             onChange={authorChangedHandler}
           />
         </InputField>
-        {/* AUTHOR INPUT END */}
-        {/* DESCRIPTION INPUT START */}
         <InputField>
           <input
             type="text"
@@ -97,16 +109,15 @@ export default function AddPhotoWidget() {
             onChange={descriptionChangedHandler}
           />
         </InputField>
-        {/* DESCRIPTION INPUT END */}
-        {/* PHOTO PREVIEW START */}
         <PhotoPreview>
           <PreviewImage id="photoPreview" src={preview} />
         </PhotoPreview>
-        {/* PHOTO PREVIEW END */}
-        {/* HIDDEN TIME INPUT START */}
-        <input type="datetime-local" name="eventTimeInput" hidden />
-        {/* HIDDEN TIME INPUT END */}
-        {/* CHOOSE BUTTON START */}
+        <input
+          type="datetime-local"
+          name="eventTimeInput"
+          onChange={timeChangedHandler}
+          hidden
+        />
         <ButtonContainer>
           <ChooseButton>
             <label htmlFor="photoUpload">
@@ -119,8 +130,7 @@ export default function AddPhotoWidget() {
               Choose Photo
             </label>
           </ChooseButton>
-          {/* CHOOSE BUTTON END */}
-          <SubmitButton type="submit" />
+          <SubmitButton onClick={handleSubmitClick}>Submit</SubmitButton>
         </ButtonContainer>
       </ContentContainer>
     </Widget>
@@ -244,22 +254,6 @@ const ButtonContainer = styled.div`
   width: fit-content;
 `
 
-const DescriptionContainer = styled.div`
-  align-items: flex-start;
-  display: flex;
-  gap: 10px;
-  position: relative;
-  width: fit-content;
-`
-
-const AuthorContainer = styled.div`
-  align-items: flex-start;
-  display: flex;
-  gap: 10px;
-  position: relative;
-  width: fit-content;
-`
-
 const ChooseButton = styled.div`
   input[type="file"] {
     display: none;
@@ -304,7 +298,7 @@ const ChooseButton = styled.div`
   }
 `
 
-const SubmitButton = styled.input`
+const SubmitButton = styled.div`
   color: #000000;
   font-family: "SF Pro Rounded-Bold", "Open Sans";
   font-size: 24px;
