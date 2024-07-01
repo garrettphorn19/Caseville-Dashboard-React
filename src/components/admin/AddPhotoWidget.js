@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 import Spinner from "react-bootstrap/Spinner"
+import Card from "react-bootstrap/Card"
 
 const contentful = require("contentful-management")
 
@@ -88,12 +89,12 @@ export default function AddPhotoWidget() {
     <Widget>
       <Title>Add Photo</Title>
       <ContentContainer>
-        <Spinner />
+        <Spinner animation="border" />
       </ContentContainer>
     </Widget>
   ) : (
-    <Widget>
-      <Title>Add Photo</Title>
+    <Card bg="primary">
+      <Title className="text-center">Add Photo</Title>
       <ContentContainer>
         <InputField>
           <input
@@ -133,7 +134,7 @@ export default function AddPhotoWidget() {
           <SubmitButton onClick={handleSubmitClick}>Submit</SubmitButton>
         </ButtonContainer>
       </ContentContainer>
-    </Widget>
+    </Card>
   )
 }
 
@@ -185,7 +186,7 @@ const InputField = styled.div`
 
     padding: 21px 15px;
 
-    @media (max-width: 450px) {
+    @media (max-width: 500px) {
       width: 310px;
     }
   }
@@ -211,7 +212,11 @@ const PreviewImage = styled.img`
   border-radius: 25px;
   box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
     inset 0px 0px 0px 0.5px #ffffff80;
-  height: 288px;
+  max-height: 288px;
+
+  @media (max-width: 500px) {
+    max-width: 310px;
+  }
 `
 
 const ButtonContainer = styled.div`

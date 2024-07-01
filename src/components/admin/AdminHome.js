@@ -1,17 +1,20 @@
 import React from "react"
 import styled from "styled-components"
 
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+
 import AddEventWidget from "./AddEventWidget"
 import AddPhotoWidget from "./AddPhotoWidget"
 
 export default function AdminHome() {
   return (
-    <Wrapper>
-      <TopRowContainer>
+    <Container fluid="sm">
+      <Row>
         <AddPhotoWidget />
         <AddEventWidget />
-      </TopRowContainer>
-    </Wrapper>
+      </Row>
+    </Container>
   )
 }
 
