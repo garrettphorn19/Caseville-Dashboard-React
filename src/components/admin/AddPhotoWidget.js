@@ -160,6 +160,7 @@ const Widget = styled.div`
     width: 410px;
   }
 `
+
 const Title = styled.p`
   color: #ffffff;
   font-family: "SF Pro Rounded-Bold", "Open Sans";
