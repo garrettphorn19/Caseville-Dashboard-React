@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
-import Spinner from "./Spinner"
+import Spinner from "react-bootstrap/Spinner"
 
 const contentful = require("contentful-management")
 
