@@ -93,7 +93,7 @@ export default function AddPhotoWidget() {
       </ContentContainer>
     </Widget>
   ) : (
-    <Card bg="primary">
+    <Widget bg="primary">
       <Title className="text-center">Add Photo</Title>
       <ContentContainer>
         <InputField>
@@ -134,7 +134,7 @@ export default function AddPhotoWidget() {
           <SubmitButton onClick={handleSubmitClick}>Submit</SubmitButton>
         </ButtonContainer>
       </ContentContainer>
-    </Card>
+    </Widget>
   )
 }
 
@@ -153,8 +153,7 @@ const Widget = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: 693px;
-  width: 930px;
+  height: 700px;
   padding: 20px;
 `
 

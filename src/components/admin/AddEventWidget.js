@@ -72,7 +72,7 @@ export default function AddEventWidget() {
   }
 
   return (
-    <Card bg="danger">
+    <Widget bg="danger">
       <Title className="text-center">Add Event</Title>
       <ContentContainer>
         <TopRowContainer>
@@ -126,7 +126,7 @@ export default function AddEventWidget() {
         </PreviewContainer>
         <Button onClick={handleSubmitClick}>Submit</Button>
       </ContentContainer>
-    </Card>
+    </Widget>
   )
 }
 const Widget = styled.div`
@@ -141,12 +141,11 @@ const Widget = styled.div`
     inset 0px 0px 0px 0.5px #ffffff80;
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  height: 700px;
   justify-content: space-between;
   overflow: hidden;
-  padding: 20px 166px;
+  padding: 20px;
   position: relative;
-  width: fit-content;
 `
 
 const Title = styled.p`
