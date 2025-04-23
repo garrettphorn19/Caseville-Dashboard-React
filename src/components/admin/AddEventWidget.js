@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react"
 import styled from "styled-components"
 import Event from "../widgets/Event"
+import { Card } from "react-bootstrap"
 
 const contentful = require("contentful-management")
 
@@ -71,11 +72,11 @@ export default function AddEventWidget() {
   }
 
   return (
-    <Widget>
-      <Title>Add Event</Title>
+    <Widget bg="danger">
+      <Title className="text-center">Add Event</Title>
       <ContentContainer>
         <TopRowContainer>
-          <TitleInput>
+          <Input>
             <input
               type="text"
               name="eventTitleInput"
@@ -84,8 +85,8 @@ export default function AddEventWidget() {
                 setEventTitle(event.target.value)
               }}
             />
-          </TitleInput>
-          <DateInput>
+          </Input>
+          <Input>
             <input
               type="datetime-local"
               name="eventTimeInput"
@@ -95,7 +96,7 @@ export default function AddEventWidget() {
                 console.log(enteredEventTime)
               }}
             />
-          </DateInput>
+          </Input>
         </TopRowContainer>
         <MiddleRowContainer>
           <SubtitleInput>
@@ -140,12 +141,11 @@ const Widget = styled.div`
     inset 0px 0px 0px 0.5px #ffffff80;
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  height: 700px;
   justify-content: space-between;
   overflow: hidden;
-  padding: 20px 166px;
+  padding: 20px;
   position: relative;
-  width: fit-content;
 `
 
 const Title = styled.p`
@@ -153,51 +153,40 @@ const Title = styled.p`
   font-family: "SF Pro Rounded-Bold", "Open Sans";
   font-size: 48px;
   font-weight: 700;
-  letter-spacing: 0;
   line-height: normal;
-  position: relative;
-  text-align: center;
-  white-space: nowrap;
-  width: fit-content;
 `
 const ContentContainer = styled.div`
-  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 36px 50px;
-  position: relative;
-  width: fit-content;
 `
 
 const TopRowContainer = styled.div`
-  align-items: center;
   display: flex;
   gap: 10px;
   justify-content: space-between;
-  position: relative;
-  width: 498px;
 `
 
 const MiddleRowContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: 498px;
+  /* align-items: center; */
+  /* display: flex; */
+  /* gap: 10px; */
+  /* justify-content: center; */
+  /* position: relative; */
+  /* width: 498px; */
 `
 
 const BottomRowContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: 498px;
+  /* align-items: center; */
+  /* display: flex; */
+  /* gap: 10px; */
+  /* justify-content: center; */
+  /* position: relative; */
+  /* width: 498px; */
 `
 
-const TitleInput = styled.div`
+const Input = styled.div`
   input {
     width: 214px;
     height: 24px;
@@ -215,24 +204,7 @@ const TitleInput = styled.div`
     position: relative;
   }
 `
-const DateInput = styled.div`
-  input {
-    width: 214px;
-    height: 24px;
-    align-items: center;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
-      inset 0px 0px 0px 0.5px #ffffff80;
-    display: flex;
-    flex: 1;
-    gap: 10px;
-    overflow: hidden;
-    padding: 21px 15px;
-    position: relative;
-  }
-`
+
 const SubtitleInput = styled.div`
   input {
     width: 468px;

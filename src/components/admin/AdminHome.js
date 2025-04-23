@@ -1,21 +1,20 @@
 import React from "react"
 import styled from "styled-components"
 
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+
 import AddEventWidget from "./AddEventWidget"
 import AddPhotoWidget from "./AddPhotoWidget"
-import DeleteEventWidget from "./DeleteEventWidget"
-import DeletePhotoWidget from "./DeletePhotoWidget"
 
 export default function AdminHome() {
   return (
-    <Wrapper>
-      <TopRowContainer>
+    <Container fluid="sm">
+      <Row>
         <AddPhotoWidget />
-        {/* <AddEventWidget /> */}
-      </TopRowContainer>
-      {/* <DeleteEventWidget />
-      <DeletePhotoWidget /> */}
-    </Wrapper>
+        <AddEventWidget />
+      </Row>
+    </Container>
   )
 }
 
@@ -26,18 +25,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* min-width: 1920px; */
   padding: 20px;
   position: relative;
-
-  @media (max-width: 450px) {
-    flex-direction: row;
-  }
 `
+
 const TopRowContainer = styled.div`
   align-items: flex-start;
   align-self: stretch;
-  display: flex;
+  display: grid;
   gap: 20px;
   justify-content: center;
   position: relative;

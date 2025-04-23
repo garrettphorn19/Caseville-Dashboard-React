@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
-import Spinner from "./Spinner"
+import Spinner from "react-bootstrap/Spinner"
+import Card from "react-bootstrap/Card"
 
 const contentful = require("contentful-management")
 
@@ -88,12 +89,12 @@ export default function AddPhotoWidget() {
     <Widget>
       <Title>Add Photo</Title>
       <ContentContainer>
-        <Spinner />
+        <Spinner animation="border" />
       </ContentContainer>
     </Widget>
   ) : (
-    <Widget>
-      <Title>Add Photo</Title>
+    <Widget bg="primary">
+      <Title className="text-center">Add Photo</Title>
       <ContentContainer>
         <InputField>
           <input
@@ -109,9 +110,9 @@ export default function AddPhotoWidget() {
             onChange={descriptionChangedHandler}
           />
         </InputField>
-        <PhotoPreview>
-          <PreviewImage id="photoPreview" src={preview} />
-        </PhotoPreview>
+        <PhotoPreviewContainer>
+          <PreviewImage id="PhotoPreviewContainer" src={preview} />
+        </PhotoPreviewContainer>
         <input
           type="datetime-local"
           name="eventTimeInput"
@@ -144,34 +145,24 @@ const Widget = styled.div`
     rgb(190.8, 86.06, 255) 0%,
     rgb(93.54, 0, 150.87) 100%
   );
+
   border-radius: 25px;
   box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
     inset 0px 0px 0px 0.5px #ffffff80;
+
   display: flex;
   flex-direction: column;
-  height: 693px;
-  justify-content: space-between;
-  left: 0;
-  overflow: hidden;
-  padding: 20px 166px;
-  width: fit-content;
 
-  @media (max-width: 450px) {
-    width: 410px;
-  }
+  height: 700px;
+  padding: 20px;
 `
+
 const Title = styled.p`
   color: #ffffff;
   font-family: "SF Pro Rounded-Bold", "Open Sans";
   font-size: 48px;
   font-weight: 700;
-  letter-spacing: 0;
   line-height: normal;
-  margin-top: -1px;
-  position: relative;
-  text-align: center;
-  white-space: nowrap;
-  width: fit-content;
 `
 
 const ContentContainer = styled.div`
@@ -179,50 +170,30 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 36px 50px;
-  position: relative;
-  width: fit-content;
+  padding: 36px;
 `
 
 const InputField = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
-
   input {
-    width: 486px;
+    width: 480px;
     height: 24px;
-    align-items: center;
-    background-color: #ffffff;
+
     border: none;
     border-radius: 25px;
     box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
       inset 0px 0px 0px 0.5px #ffffff80;
-    display: flex;
-    flex: 1;
-    gap: 10px;
-    overflow: hidden;
-    padding: 21px 15px;
-    position: relative;
 
-    @media (max-width: 450px) {
+    padding: 21px 15px;
+
+    @media (max-width: 500px) {
       width: 310px;
     }
   }
 `
 
-const PhotoPreview = styled.div`
-  align-items: center;
+const PhotoPreviewContainer = styled.div`
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  position: relative;
-  width: fit-content;
   border-radius: 25px;
-  background: #ffffff;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   &:hover {
@@ -240,18 +211,16 @@ const PreviewImage = styled.img`
   border-radius: 25px;
   box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
     inset 0px 0px 0px 0.5px #ffffff80;
-  flex: 1;
-  height: 288px;
-  max-width: 498px;
-  position: relative;
+  max-height: 288px;
+
+  @media (max-width: 500px) {
+    max-width: 310px;
+  }
 `
 
 const ButtonContainer = styled.div`
-  align-items: flex-start;
   display: flex;
   gap: 10px;
-  position: relative;
-  width: fit-content;
 `
 
 const ChooseButton = styled.div`
@@ -260,25 +229,15 @@ const ChooseButton = styled.div`
   }
 
   label {
-    color: #000000;
     font-family: "SF Pro Rounded-Bold", "Open Sans";
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
-    text-align: center;
-
-    align-items: center;
     background-color: #ffffff;
     border-radius: 25px;
     box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
       inset 0px 0px 0px 0.5px #ffffff80;
     display: inline-block;
-
-    gap: 20px;
-    justify-content: center;
-    overflow: hidden;
     padding: 10px 20px;
-    position: relative;
-    width: fit-content;
     transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &:hover {
@@ -299,24 +258,14 @@ const ChooseButton = styled.div`
 `
 
 const SubmitButton = styled.div`
-  color: #000000;
   font-family: "SF Pro Rounded-Bold", "Open Sans";
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  text-align: center;
-
-  align-items: center;
   background-color: #ffffff;
   border-radius: 25px;
   box-shadow: 0px 20px 40px #17006633, 0px 1px 3px #0000001a,
     inset 0px 0px 0px 0.5px #ffffff80;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  overflow: hidden;
   padding: 10px 20px;
-  position: relative;
-  width: fit-content;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   &:hover {

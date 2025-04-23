@@ -6,26 +6,6 @@ import Photo from "./Photo"
 
 const contentful = require("contentful-management")
 
-function shuffle(array) {
-  let currentIndex = array.length,
-    randomIndex
-
-  // While there remain elements to shuffle.
-  while (currentIndex > 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-
-    // And swap it with the current element.
-    ;[array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ]
-  }
-
-  return array
-}
-
 export default function PhotoWidget() {
   const spaceId = process.env.GATSBY_CONTENTFUL_SPACE_ID
   const managementAccessToken = process.env.GATSBY_CONTENTFUL_MANAGEMENT_KEY
@@ -48,6 +28,8 @@ export default function PhotoWidget() {
   if (!photos) {
     return "Loading Photos..."
   }
+
+  console.log(photos)
 
   return (
     <Widget>
